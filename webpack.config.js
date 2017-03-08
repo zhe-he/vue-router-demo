@@ -9,7 +9,6 @@ const autoprefixer = require('autoprefixer');
 
 
 const DIST = 'www/dist/';
-var commonJs = ['whatwg-fetch','babel-polyfill'];
 
 var loaders = [
 	{loader:'style-loader'},
@@ -26,14 +25,14 @@ var loaders = [
 module.exports = {
 	// 页面入口文件配置
 	entry: {
-		"main": 'src/main.js',
+		"main": ['whatwg-fetch','babel-polyfill','js/main.js'],
 	},
 	// 入口文件输出配置
 	output: {
 		publicPath: 'dist/',
 		path: path.resolve(__dirname, DIST),
 		filename: '[name].js',
-		chunkFilename: 'chunk-[id].js',
+		chunkFilename: 'js/chunk-[id].js?[hash]',
 	},
 	// 插件项
 	plugins: [
@@ -41,9 +40,6 @@ module.exports = {
 			name: "common",
 			minChunks: 3
 		}),*/
-		new CopyWebpackPlugin([
-			{from: 'images/tmp/**/*'}
-		]),
 	    /*new webpack.optimize.UglifyJsPlugin({
 	      compressor: {
 	        warnings: false,
@@ -133,9 +129,9 @@ module.exports = {
 			process.cwd(),
 			"node_modules"
 		],
-		extensions: ['.ts','.js', '.vue'],
+		extensions: ['.ts','.js','.vue'],
 		alias: {
-			"vue": 				"src/libs/vue.common.js",
+			"vue": 				"js/libs/vue.common.js",
 		}
 	}
 };

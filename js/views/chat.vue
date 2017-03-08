@@ -1,9 +1,9 @@
 <template lang="pug">
 	article
 		ul(class="chat-ul")
-			li 往返皆伙伴
-			li 订阅号
-			li(v-for="item in 15") 群聊{{item}}
+			router-link(to="/chat/-1",tag="li") 往返皆伙伴
+			router-link(:to="{path:'/chat/0'}",tag="li") 订阅号
+			router-link(v-for="item in 15",:to="{name:'chatDetail', params:{id:item}}",tag="li",:key="item") 群聊{{item}}
 		nv-menu
 
 </template>
