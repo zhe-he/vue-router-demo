@@ -62,8 +62,8 @@ module.exports = {
 			},
 			{test: /\.tsx?$/,exclude:/(node_modules)/,use:['ts-loader']},
 			{
-				test: /\.css|components$/,
-				exclude:/node_modules/,
+				test: /\.css$/,
+				exclude:/node_modules|libs/,
 				use: loaders
 			},
 			{
@@ -86,6 +86,7 @@ module.exports = {
 							preserveWhitespace: false,
 							postcss: [autoprefixer({browsers: ['last 7 versions']})],
 							loaders: {
+								// 'ts': 'vue-ts-loader',
 								'js': 'babel-loader?presets[]=es2015'
 							}
 						}

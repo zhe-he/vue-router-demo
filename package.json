@@ -1,7 +1,7 @@
 {
   "name": "vue-router-demo",
-  "version": "1.1.0",
-  "description": "This guy is too lazy to leave anything",
+  "version": "1.1.1",
+  "description": "vue-router,vue,webpack",
   "scripts": {
     "start": "webpack --progress --colors",
     "watch": "webpack --colors --watch",
@@ -9,11 +9,16 @@
     "build": "webpack -p --progress --colors",
     "server": "node server --3336"
   },
-  "author": {
-    "name": "zhe-he",
-    "e-mail": "hezhe@ihangmei.com",
-    "github": "https://github.com/zhe-he"
-  },
+  "author": [
+    {
+      "name": "luonan",
+      "e-mail": "luonan@ihangmei.com"
+    },
+    {
+      "name": "zhe-he",
+      "e-mail": "hezhe@ihangmei.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "http://git.ihangmei.com/App-Services-RD/geos"
@@ -57,6 +62,7 @@
     "sass-loader": "^6.0.0",
     "store2": "^2.5.0",
     "style-loader": "^0.13.1",
+    "swiper": "^3.4.1",
     "ts-loader": "^2.0.0",
     "typescript": "^2.3.0-dev.20170216",
     "url-loader": "^0.5.7",

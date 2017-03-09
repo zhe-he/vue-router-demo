@@ -1,13 +1,13 @@
 <template lang="pug">
 	article
-		nv-title(title="个人中心")
+		nv-title(title="行程")
 		p none
 		nv-menu
 
 </template>
 
 <style lang="sass" scoped>
-	
+
 </style>
 
 <script>

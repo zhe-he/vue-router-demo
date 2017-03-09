@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import routes from './routers';
 import FastClick from 'fastclick';
+import "./libs/autosize.js";
 import "../css/reset.scss";
 import "../css/index.scss";
 
@@ -13,10 +14,14 @@ const router = new VueRouter({
 
 FastClick.attach(document.body);
 
-/*
+
 router.beforeEach((to, from, next) => {
-    next();
-});*/
+	if (to.path=='/') {
+		next({name:'find'});
+	}else{
+		next();
+	}
+});
 
 
 new Vue({

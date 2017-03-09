@@ -1,29 +1,34 @@
-const chat = resolve => require(['./views/chat.vue'], resolve);
-const chatDetail = resolve => require(['./views/chat-detail.vue'], resolve);
+const wifi = resolve => require(['./views/wifi.vue'], resolve);
+const entertainment = resolve => require(['./views/entertainment.vue'], resolve);
+const etmDetail = resolve => require(['./views/etm-detail.vue'], resolve);
 const find = resolve => require(['./views/find.vue'], resolve);
-const friend = resolve => require(['./views/friend.vue'], resolve);
+const trip = resolve => require(['./views/trip.vue'], resolve);
 const personal = resolve => require(['./views/personal.vue'], resolve);
 
 const routers = [{
     path: '/',
     name: 'index',
-    component: chat
-},{
-    path: '/chat',
-    name: 'chat',
-    component: chat
-},{
-    path: '/chat/:id',
-    name: 'chatDetail',
-    component: chatDetail
-},{
-    path: '/friend',
-    name: 'friend',
-    component: friend
+    component: find
 },{
     path: '/find',
     name: 'find',
     component: find
+},{
+    path: '/wifi',
+    name: 'wifi',
+    component: wifi
+},{
+    path: '/entertainment',
+    name: 'entertainment',
+    component: entertainment
+},{
+    path: '/entertainment/:id',
+    name: 'etmDetail',
+    component: etmDetail
+},{
+    path: '/trip',
+    name: 'trip',
+    component: trip
 },{
     path: '/personal',
     name: 'personal',
