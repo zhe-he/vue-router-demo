@@ -8,31 +8,52 @@ const personal = resolve => require(['./views/personal.vue'], resolve);
 const routers = [{
     path: '/',
     name: 'index',
-    component: find
+    component: find,
+    meta: {
+        keepAlive: true
+    }
 },{
     path: '/find',
     name: 'find',
-    component: find
+    component: find,
+    meta: {
+        keepAlive: true
+    }
 },{
     path: '/wifi',
     name: 'wifi',
-    component: wifi
+    component: wifi,
+    meta: {
+        keepAlive: true
+    }
 },{
     path: '/entertainment',
     name: 'entertainment',
-    component: entertainment
+    component: entertainment,
+    meta: {
+        keepAlive: true
+    }
 },{
     path: '/entertainment/:id',
     name: 'etmDetail',
-    component: etmDetail
+    component: etmDetail,
+    meta: {
+        keepAlive: true
+    }
 },{
     path: '/trip',
     name: 'trip',
-    component: trip
+    component: trip,
+    meta: {
+        keepAlive: true
+    }
 },{
     path: '/personal',
     name: 'personal',
-    component: personal
+    component: personal,
+    meta: {
+        keepAlive: true
+    }
 }];
 
 

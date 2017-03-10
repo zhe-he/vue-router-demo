@@ -41,8 +41,11 @@
 				margin-left: -0.26rem;
 			}
 
-			&.router-link-active{
+			&:active,&.router-link-active{
 				color: #FF4F1A;
+			}
+			&:active{
+				opacity: 0.8;
 			}
 		}
 		$img_arr1: wifi_n etm-n found-n trip-n my-n;
@@ -52,7 +55,7 @@
 				& > i{
 					@include bg2(nth($img_arr1,$i));
 				}
-				&.router-link-active > i{
+				&.router-link-active > i,&:active > i{
 					@include bg2(nth($img_arr2,$i));
 				}
 			}

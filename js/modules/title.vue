@@ -18,6 +18,7 @@
 			font-weight: normal;
 			color: #030303;
 			@extend %ui-border-b;
+			background-color: #fff;
 			a{
 				position: absolute;
 				top: 0;
