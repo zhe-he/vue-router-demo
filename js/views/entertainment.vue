@@ -3,7 +3,7 @@
 		nv-title(title="娱乐")
 		nav
 			router-link(v-for="item in etmId2title",:key="item.id",:to="{name:'etmDetail',params:{id:item.id}}") {{item.name}}
-			
+		
 		nv-menu
 	
 </template>
