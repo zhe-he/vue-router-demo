@@ -8,7 +8,7 @@ const autoprefixer = require('autoprefixer');
 // const pluginsText = new Date().toUTCString() + '\n\r * built by `zhe-he`';
 
 
-const DIST = 'www/dist/';
+const DIST = 'www';
 
 var loaders = [
 	{loader:'style-loader'},
@@ -29,10 +29,10 @@ module.exports = {
 	},
 	// 入口文件输出配置
 	output: {
-		publicPath: 'dist/',
+		publicPath: '../',
 		path: path.resolve(__dirname, DIST),
-		filename: '[name].js',
-		chunkFilename: 'js/chunk-[id].js?[hash]',
+		filename: 'dist/[name].js',
+		chunkFilename: 'dist/js/chunk-[id].js?[hash]',
 	},
 	// 插件项
 	plugins: [
