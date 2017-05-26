@@ -1,29 +1,12 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import routes from './routers';
-import FastClick from 'fastclick';
-import "./libs/autosize.js";
-import "../css/reset.scss";
-import "../css/index.scss";
-
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-    routes
-});
-
-FastClick.attach(document.body);
-
-
-router.beforeEach((to, from, next) => {
-	if (to.path=='/') {
-		next({name:'find'});
-	}else{
-		next();
-	}
-});
-
+import store from './store';
+import router from './router';
+import App from './App';
 
 new Vue({
-    router
-}).$mount('#app');
+    el: "#app",
+    router,
+    store,
+    render: h=>h(App)
+})
+

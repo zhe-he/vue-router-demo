@@ -4,12 +4,12 @@ var cfg = Object.assign(webpackBase, {
     devtool: "cheap-module-eval-source-map"
 });
 
-var port = process.argv[2]?process.argv[2].replace('--',''):3336;
+var port = process.argv[2]?process.argv[2].replace('--',''):4010;
 
 //entry 
 Object.getOwnPropertyNames((webpackBase.entry || {})).map(function (name) {
     cfg.entry[name] = []
-    	.concat("webpack/hot/dev-server")
+        .concat("webpack/hot/dev-server")
         .concat(`webpack-dev-server/client?http:\/\/0.0.0.0:${port}`)
         .concat(webpackBase.entry[name])
 });
@@ -27,8 +27,9 @@ var compiler = webpack(cfg);
 //init server
 var app = new webpackDevServer(compiler, {
     publicPath: '',
-    contentBase: './www/',
+    contentBase: './www',
     hot: true,
+    disableHostCheck: true,
     stats: { colors: true, chunks: false }
 });
 // 监听端口
@@ -42,10 +43,10 @@ console.log(`listen at http:\/\/localhost:${port}`);
 var child_process = require('child_process');
 var cmd;
 if (process.platform === 'win32') {
-	cmd = 'start "%ProgramFiles%\Internet Explorer\iexplore.exe"';
+    cmd = 'start "%ProgramFiles%\Internet Explorer\iexplore.exe"';
 } else if (process.platform === 'linux') {
-	cmd = 'xdg-open';
+    cmd = 'xdg-open';
 } else if (process.platform === 'darwin') {
-	cmd = 'open';
+    cmd = 'open';
 }
-child_process.exec(`${cmd} "http:\/\/localhost:${port}/webpack-dev-server/"`);
+child_process.exec(`${cmd} "http:\/\/localhost:${port}/"`);
