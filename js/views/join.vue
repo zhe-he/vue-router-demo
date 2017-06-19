@@ -411,7 +411,7 @@
                         _this.imgWidth = this.width;
                         _this.imgHeight = this.height;
                     }
-                    image.onerror = function (e){
+                    image.onerror = function (){
                         this.onerror = this.onload = null;
                         _this.imgWidth = 0;
                         _this.imgHeight = 0;

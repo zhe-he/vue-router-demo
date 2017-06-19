@@ -8,10 +8,12 @@ var port = process.argv[2]?process.argv[2].replace('--',''):4010;
 
 //entry 
 Object.getOwnPropertyNames((webpackBase.entry || {})).map(function (name) {
-    cfg.entry[name] = []
-        .concat("webpack/hot/dev-server")
-        .concat(`webpack-dev-server/client?http:\/\/0.0.0.0:${port}`)
-        .concat(webpackBase.entry[name])
+    if (name != 'vendor') {
+        cfg.entry[name] = []
+            .concat("webpack/hot/dev-server")
+            .concat(`webpack-dev-server/client?http:\/\/0.0.0.0:${port}`)
+            .concat(webpackBase.entry[name])
+    }
 });
 
 cfg.plugins = (webpackBase.plugins || []).concat(

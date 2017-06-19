@@ -1,4 +1,4 @@
-import {isIos,isWeixin} from 'method';
+import {isWeixin} from 'method';
 
 class WFApp{
     constructor(){
@@ -7,7 +7,7 @@ class WFApp{
         this.appUrl = 'wangfan://';
         var reVersion = /(iOSApp|AndroidApp)\/wangfan\s+(\d+\.\d+\.\d+)/i.exec(window.navigator.userAgent);
         this.version = reVersion != null? reVersion[2]: "";
-    };
+    }
     open(){
         if (isWeixin) {
             this.to(this.downUrl);
@@ -17,10 +17,10 @@ class WFApp{
                 this.to(this.downUrl);
             },3000);
         }
-    };
+    }
     to(url){
         window.location.href = url;
-    };
+    }
 
 }
 

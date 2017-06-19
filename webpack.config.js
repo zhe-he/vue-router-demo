@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-// const pluginsText = new Date().toUTCString() + '\n\r * built by `zhe-he`';
+const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
 
 
 const DIST = 'www';
@@ -16,16 +16,17 @@ var loaders = [
     {
         loader: 'postcss-loader',
         options: {
-            plugins: [
-                autoprefixer({ browsers: ['last 9 versions'], cascade: false })
-            ]
+            config: {
+                path: 'config/postcss.config.js'
+            }
         }
     }
 ];
 module.exports = {
     // 页面入口文件配置
     entry: {
-        "main": ['whatwg-fetch','babel-polyfill','js/main.js'],
+        "vendor": ['whatwg-fetch','babel-polyfill'],
+        "main": 'js/main.js'
     },
     // 入口文件输出配置
     output: {
@@ -36,12 +37,6 @@ module.exports = {
     },
     // 插件项
     plugins: [
-        /*new webpack.optimize.UglifyJsPlugin({
-          compressor: {
-            warnings: false,
-            mangle: false
-          }
-        }),*/
         new CopyWebpackPlugin([
             {from: 'images/tmp/**/*'}
         ]),
@@ -56,7 +51,11 @@ module.exports = {
             },
             inject: "body",
             hash: true,
-            chunks: ["main"]
+            chunks: ["vendor","main"],
+            chunksSortMode: function (a, b) {
+                var orders = ["vendor","main"];
+                return orders.indexOf(a.names[0])-orders.indexOf(b.names[0]);
+            }
         }),
     ],
     module: {
@@ -77,7 +76,11 @@ module.exports = {
                     }
                 ]
             },
-            {test: /\.tsx?$/,exclude:/(node_modules)/,use:['ts-loader']},
+            {
+                test: /\.tsx?$/,
+                exclude:/(node_modules)/,
+                use:[{ loader: 'ts-loader',options: { configFileName: "config/tsconfig.json" } }]
+            },
             {
                 test: /\.css$/,
                 exclude:/node_modules|libs/,
@@ -112,7 +115,6 @@ module.exports = {
             },
             {test: /\.(json|data)$/,exclude:/node_modules/,use: ['json-loader']},
             {test: /\.(txt|md)$/,exclude:/node_modules/,use: ['raw-loader']},
-            {test: /\.svg$/,use: ['raw-loader']},
             {
                 test: /\.(png|jpe?g|gif)$/,
                 exclude:/node_modules|tmp/,
@@ -171,3 +173,33 @@ module.exports = {
         }
     }
 };
+
+if (process.env.NODE_ENV === 'production') {
+    module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: '"production"'
+        }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+        compress: {
+            warnings: false
+        },
+        mangle: false
+    }),
+    new webpack.BannerPlugin(pluginsText)
+    /*new webpack.LoaderOptionsPlugin({
+        minimize: true
+    })*/
+  ])
+} else {
+    module.exports.module.rules.unshift({
+        test: /\.(js|vue)$/,
+        exclude: /libs/,
+        loader: "eslint-loader", 
+        options: { 
+            configFile:  path.resolve(__dirname, 'config/.eslintrc')
+        },
+        enforce: 'pre'
+    })
+}
