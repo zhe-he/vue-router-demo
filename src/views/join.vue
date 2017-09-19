@@ -77,7 +77,7 @@
 </template>
 
 <style lang="sass" scoped>
-    @import "../../css/base";
+    @import "../styles/base";
     .contentTitle{
         width:3.01rem;
         margin:.07rem auto;

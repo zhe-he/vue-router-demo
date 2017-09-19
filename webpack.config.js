@@ -25,20 +25,20 @@ var loaders = [
 module.exports = {
     // 页面入口文件配置
     entry: {
-        "vendor": ['whatwg-fetch','babel-polyfill'],
-        "main": 'js/main.js'
+        "vendor": ['babel-polyfill'],
+        "main": 'src/main.js'
     },
     // 入口文件输出配置
     output: {
         // publicPath: '',
         path: path.resolve(__dirname, DIST),
         filename: 'js/[name].js',
-        chunkFilename: 'js/chunk/_[id].js?[hash]',
+        chunkFilename: 'js/chunk/[name].js?[hash]',
     },
     // 插件项
     plugins: [
         new CopyWebpackPlugin([
-            {from: 'images/tmp/**/*'}
+            {from: 'images/tmp/**/*'},
         ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
@@ -60,10 +60,10 @@ module.exports = {
     ],
     module: {
         rules: [
-            {test: /\.html$/,exclude:/node_modules/,use: ['html-loader']},
+            {test: /\.html$/,use: ['html-loader']},
             {
                 test: /\.js$/,
-                exclude:/(node_modules|lib)/,
+                exclude:/node_modules|libs/,
                 use: [
                     {
                         loader:'babel-loader',
@@ -78,27 +78,19 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                exclude:/(node_modules)/,
-                use:[{ loader: 'ts-loader',options: { configFileName: "config/tsconfig.json" } }]
+                use:[{ loader: 'ts-loader' }]
             },
             {
                 test: /\.css$/,
-                exclude:/node_modules|libs/,
+                exclude:/libs/,
                 use: loaders
             },
             {
                 test: /\.(scss|sass)$/,
-                exclude:/node_modules/,
                 use: loaders.concat({loader:'sass-loader'})
             },
             {
-                test: /\.less$/,
-                exclude:/node_modules/,
-                use: loaders.concat({loader:'less-loader'})
-            },
-            {
                 test: /\.vue$/,
-                exclude:/node_modules/,
                 use: [
                     {
                         loader: 'vue-loader',
@@ -113,11 +105,11 @@ module.exports = {
                     }
                 ]
             },
-            {test: /\.(json|data)$/,exclude:/node_modules/,use: ['json-loader']},
-            {test: /\.(txt|md)$/,exclude:/node_modules/,use: ['raw-loader']},
+            {test: /\.(json|data)$/,use: ['json-loader']},
+            {test: /\.(txt|md)$/,use: ['raw-loader']},
             {
                 test: /\.(png|jpe?g|gif)$/,
-                exclude:/node_modules|tmp/,
+                exclude:/tmp/,
                 use: [
                     {
                         loader:'url-loader',
@@ -143,7 +135,6 @@ module.exports = {
             },
             {
                 test: /\.(ttf|woff2?|svg|eot)$/,
-                exclude:/node_modules/,
                 use: [
                     {
                         loader:'url-loader',
@@ -153,8 +144,13 @@ module.exports = {
                         }
                     }
                 ]
-            },
+            }
         ]
+    },
+    externals: {
+        "vue": "Vue",
+        "vuex": "Vuex",
+        "vue-router": "VueRouter"
     },
     // 其他配置
     resolve: {
@@ -164,18 +160,22 @@ module.exports = {
         ],
         extensions: ['.ts','.js','.vue'],
         alias: {
-            "vue":              "js/libs/vue.common.js",
-            "inter":            "js/data/inter.js",
-            "method":           "js/modules/method.js",
-            "msg":              "js/modules/msg.vue",
-            "WFApp":            "js/modules/WFApp.js",
-            "loading":          "js/modules/loading"
+            "inter":            "src/data/inter.js",
+            "method":           "src/modules/method.js",
+            "msg":              "src/modules/msg.vue",
+            "WFApp":            "src/modules/WFApp.js",
+            "loading":          "src/modules/loading"
         }
     }
 };
 
 if (process.env.NODE_ENV === 'production') {
     module.exports.plugins = (module.exports.plugins || []).concat([
+    new CopyWebpackPlugin([
+        {from: 'node_modules/vue/dist/vue.min.js',to:'js/vue.js'},
+        {from: 'node_modules/vuex/dist/vuex.min.js',to:'js/vue.js'},
+        {from: 'node_modules/vue-router/dist/vue-router.min.js',to:'js/vue-router.js'}
+    ]),
     new webpack.DefinePlugin({
         'process.env': {
             NODE_ENV: '"production"'
@@ -188,11 +188,15 @@ if (process.env.NODE_ENV === 'production') {
         mangle: false
     }),
     new webpack.BannerPlugin(pluginsText)
-    /*new webpack.LoaderOptionsPlugin({
-        minimize: true
-    })*/
   ])
 } else {
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        new CopyWebpackPlugin([
+            {from: 'node_modules/vue/dist/vue.js',to:'js/vue.js'},
+            {from: 'node_modules/vuex/dist/vuex.js',to:'js/vuex.js'},
+            {from: 'node_modules/vue-router/dist/vue-router.min.js',to:'js/vue-router.js'}
+        ])
+    ]);
     module.exports.module.rules.unshift({
         test: /\.(js|vue)$/,
         exclude: /libs/,

@@ -1,8 +1,6 @@
 *.log
 node_modules
-.npminstall.done
 .svn
 .DS_Store
 *.diff
 *.zip
-ignore

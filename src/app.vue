@@ -11,8 +11,8 @@
 </template>
 
 <style type="text/css">
-    @import "../css/reset.scss";
-    @import "../css/index.scss";
+    @import "./styles/reset.scss";
+    @import "./styles/index.scss";
 </style>
 <script type="text/javascript">
     import msg from 'msg';

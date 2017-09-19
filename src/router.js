@@ -1,7 +1,4 @@
-import Vue from 'vue';
 import Router from 'vue-router';
-
-Vue.use(Router);
 
 const find = r => require.ensure([], () => r(require('./views/find.vue')), 'group-find');
 const join = r => require.ensure([], () => r(require('./views/join.vue')), 'group-find');

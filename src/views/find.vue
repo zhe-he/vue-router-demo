@@ -75,7 +75,7 @@
 </template>
 
 <style lang="sass" scoped>
-    @import "../../css/base";
+    @import "../styles/base";
     .p30{
         padding: 0 0.3rem;
     }
@@ -327,6 +327,7 @@
 
 <script>
     var crypto = require("crypto");
+    import axios from 'axios';
     const querystring = require('querystring');
     import {URL_SELECT,URL_VOTE,URL_GETINFO} from "inter";
     import fetchJsonp from 'fetch-jsonp';
@@ -467,7 +468,7 @@
                 var index = this.findInfo(id);
                 if (index!=-1) {
                     this.showLoad();
-                    fetch(URL_VOTE,{
+                    axios(URL_VOTE,{
                         "method": "POST",
                         "cache-control": "no-cache",
                         "mode": "cors",
