@@ -4,6 +4,32 @@
     </div>
 </template>
 
+<style type="text/css">
+    @keyframes fadeInUp{
+        0%{
+            z-index: 1000;
+            opacity:0;
+            transform:translateY(20px)
+        }
+        100%{
+            z-index: 1000;
+            opacity:1;
+            transform:translateY(0)
+        }
+    }
+    @keyframes fadeOutDown{
+        0%{
+            z-index: 1000;
+            opacity:1;
+            transform:translateY(0)
+        }
+        100%{
+            z-index: -1;
+            opacity:0;
+            transform:translateY(20px)
+        }
+    }
+</style>
 <style scoped>
     .fadeIn{
         animation: fadeInUp 1s 0s ease both;
@@ -37,31 +63,6 @@
         text-align: center;
         color: #fff;
         font-size: 0.32rem;
-    }
-
-    @keyframes fadeInUp{
-        0%{
-            z-index: 1000;
-            opacity:0;
-            transform:translateY(20px)
-        }
-        100%{
-            z-index: 1000;
-            opacity:1;
-            transform:translateY(0)
-        }
-    }
-    @keyframes fadeOutDown{
-        0%{
-            z-index: 1000;
-            opacity:1;
-            transform:translateY(0)
-        }
-        100%{
-            z-index: -1;
-            opacity:0;
-            transform:translateY(20px)
-        }
     }
 </style>
 

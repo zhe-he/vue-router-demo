@@ -1,4 +1,4 @@
-const _alert = ({commit},payload) => {
+const toast = ({commit},payload) => {
     var msg,time;
     if (typeof payload == "object") {
         msg = payload.msg;
@@ -14,5 +14,5 @@ const _alert = ({commit},payload) => {
 };
 
 export {
-    _alert
+    toast
 }

@@ -23,7 +23,7 @@
             .preload-5(v-if="status==5")
 </template>
 
-<style lang="sass" scoped>
+<style lang="scss">
     .preload-box-mask{
         z-index: 1000;
         position: fixed;

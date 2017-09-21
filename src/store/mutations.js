@@ -3,21 +3,21 @@ const showLoad = (state,status) => {
 };
 
 const hideLoad = state => {
-    state.loadStatus = false;
+    state.loadStatus = 0;
 };
 
 const showMsg = (state,msg) => {
-    state.status = 1;
-    state.msg = msg;
+    state.toast.status = 1;
+    state.toast.msg = msg;
 };
 
 const setMsgTimer = (state,{fn}) => {
-    clearTimeout(state.timer);
-    state.timer = fn;
+    clearTimeout(state.toast.timer);
+    state.toast.timer = fn;
 };
 
 const hideMsg = (state) => {
-    state.status = 2;
+    state.toast.status = 2;
 };
 
 export {

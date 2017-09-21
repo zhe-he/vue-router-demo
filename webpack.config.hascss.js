@@ -1,9 +1,9 @@
 const webpack = require("webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 const DIST = 'www';
 var srcVue = 'node_modules/vue/dist/vue.js';
@@ -20,7 +20,7 @@ const cssLoader = [
     {loader: 'css-loader'},
     {loader: 'postcss-loader'}
 ];
-const vueSassConfig = 'vue-style-loader!css-loader!sass-loader';
+const vueSassConfig = 'css-loader!sass-loader';
 module.exports = {
     // 页面入口文件配置
     entry: {
@@ -36,6 +36,7 @@ module.exports = {
     },
     // 插件项
     plugins: [
+        new ExtractTextPlugin("css/vueStyle.css"),
         new CopyWebpackPlugin([
             {from: 'images/tmp/**/*'},
             {from: srcVue, to: 'js/vue.js'},
@@ -80,8 +81,18 @@ module.exports = {
                                 camelCase: true
                             },
                             loaders: {
-                                scss: vueSassConfig,
-                                sass: `${vueSassConfig}?indentedSyntax`,
+                                scss: ExtractTextPlugin.extract({
+                                    use: vueSassConfig,
+                                    fallback: 'vue-style-loader'
+                                }),
+                                sass: ExtractTextPlugin.extract({
+                                    use: `${vueSassConfig}?indentedSyntax`,
+                                    fallback: 'vue-style-loader'
+                                }),
+                                css: ExtractTextPlugin.extract({
+                                    use: 'css-loader',
+                                    fallback: 'vue-style-loader'
+                                }),
                                 js: 'babel-loader'
                             }
                         }
