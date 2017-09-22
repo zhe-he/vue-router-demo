@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h2>Topics</h2>
+        <common-nav></common-nav>
         <br/>
-        <router-link class="yellow" exact to="/">go home>> </router-link>
 
         <ul>
             <li><router-link exact to="/topic/">/rendering</router-link></li>
