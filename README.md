@@ -37,7 +37,7 @@ You just need to run `npm run dev`.
 1. config/ 某些配置信息，与项目无关 
 1. www/ 输出/上线 目录，所有被编译的文件都会输出到此目录   
 
-*vue中的css会被插入到head，如果想单独打包成css，请使用webpack.config.hascss.js*  
-*截止到2017-09-21 15:54，package.json模块全为最新版*   
+
+*截止到2017-09-21 15:54，package.json模块最新版*   
 *如果问题，请[联系我](mailto:hezhe@ihangmei.com)*    
 
