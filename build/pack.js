@@ -18,5 +18,5 @@ archive.on('error',err=>{
 });
 
 archive.pipe(output);
-archive.directory('www','/');
+archive.directory('dist','/');
 archive.finalize();

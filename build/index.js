@@ -5,7 +5,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
 
-const DIST = 'www';
+const DIST = 'dist';
 var srcVue = 'node_modules/vue/dist/vue.js';
 var srcVuex = 'node_modules/vuex/dist/vuex.js';
 var srcVueRouter = 'node_modules/vue-router/dist/vue-router.js';
@@ -30,7 +30,7 @@ module.exports = {
     // 入口文件输出配置
     output: {
         publicPath: '/',
-        path: path.resolve(__dirname, DIST),
+        path: path.resolve(__dirname, `../${DIST}`),
         filename: 'js/[name].js',
         chunkFilename: 'js/chunk/[name].js?[hash]',
     },
@@ -38,7 +38,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin("css/vueStyle.css"),
         new CopyWebpackPlugin([
-            {from: 'images/tmp/**/*'},
+            {from: 'images/static/**/*'},
             {from: srcVue, to: 'js/vue.js'},
             {from: srcVuex, to: 'js/vuex.js'},
             {from: srcVueRouter, to: 'js/vue-router.js'}
@@ -101,7 +101,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                exclude: /tmp/,
+                exclude: /static/,
                 use: [
                     {
                         loader:'url-loader',
@@ -115,7 +115,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                include: /tmp/,
+                include: /static/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -149,7 +149,7 @@ module.exports = {
             process.cwd(),
             "node_modules"
         ],
-        extensions: ['.ts','.js','.vue']
+        extensions: ['.ts','.js','.vue','.json']
     }
 };
 
@@ -173,9 +173,7 @@ if (process.env.NODE_ENV === 'production') {
         test: /\.(js|vue)$/,
         exclude: /libs/,
         loader: "eslint-loader", 
-        options: { 
-            configFile:  path.resolve(__dirname, 'config/.eslintrc')
-        },
+        // options: { configFile: '.eslintrc'},
         enforce: 'pre'
     })
 }
