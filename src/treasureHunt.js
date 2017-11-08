@@ -41,16 +41,15 @@ new Vue({
                 var url = "/send?id=" + window.openId;
                 fetch(url); 
             }
-            if (card.prize > 0) {
-                this.prize[card.prize-1].has = true;
-            }
-            
             clearTimeout(this.msgTimer);
             this.showMsg = true;
             if (this.prize[3].has) {
                 this.msg = '您已集齐所有的碎片';
             }else{
                 this.msg = card.text;
+            }
+            if (card.prize > 0) {
+                this.prize[card.prize-1].has = true;
             }
             
             this.msgTimer = setTimeout(()=>{

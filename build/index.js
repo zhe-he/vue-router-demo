@@ -32,7 +32,8 @@ module.exports = {
         new ExtractTextPlugin("css/vueStyle.css"),
         new CopyWebpackPlugin([
             {from: 'images/static/**/*'},
-            {from: srcVue, to: 'js/vue.js'}
+            {from: srcVue, to: 'js/vue.js'},
+            {from: 'read.md', to: 'readme.md'}
         ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
