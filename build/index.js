@@ -3,17 +3,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
+const pluginsText = new Date().toLocaleString() + '\n\r * `treasureHunt`';
 
 const DIST = 'dist';
 var srcVue = 'node_modules/vue/dist/vue.js';
-var srcVuex = 'node_modules/vuex/dist/vuex.js';
-var srcVueRouter = 'node_modules/vue-router/dist/vue-router.js';
-if (process.env.NODE_ENV === 'production') {
-    srcVue = srcVue.replace('vue.js','vue.min.js');
-    srcVuex = srcVuex.replace('vuex.js','vuex.min.js');
-    srcVueRouter = srcVueRouter.replace('vue-router.js','vue-router.min.js');
-}
 
 const cssLoader = [
     {loader:'style-loader'},
@@ -24,12 +17,12 @@ const vueSassConfig = 'css-loader!sass-loader';
 module.exports = {
     // 页面入口文件配置
     entry: {
-        "vendor": ['babel-polyfill'],
-        "main": 'src/main.js'
+        "vendor": ["src/libs/autosize.js",'babel-polyfill','whatwg-fetch'],
+        "treasureHunt": 'src/treasureHunt.js'
     },
     // 入口文件输出配置
     output: {
-        publicPath: '/',
+        publicPath: '',
         path: path.resolve(__dirname, `../${DIST}`),
         filename: 'js/[name].js',
         chunkFilename: 'js/chunk/[name].js?[hash]',
@@ -39,24 +32,22 @@ module.exports = {
         new ExtractTextPlugin("css/vueStyle.css"),
         new CopyWebpackPlugin([
             {from: 'images/static/**/*'},
-            {from: srcVue, to: 'js/vue.js'},
-            {from: srcVuex, to: 'js/vuex.js'},
-            {from: srcVueRouter, to: 'js/vue-router.js'}
+            {from: srcVue, to: 'js/vue.js'}
         ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
-            favicon: 'images/favicon.ico',
+            // favicon: 'images/favicon.ico',
             minify: {
-                minimize: true,
-                removeComments: true,
-                collapseWhitespace: true
+                minimize: false,
+                removeComments: false,
+                collapseWhitespace: false
             },
             inject: "body",
             hash: true,
-            chunks: ["vendor","main"],
+            chunks: ["treasureHunt"],
             chunksSortMode: function (a, b) {
-                var orders = ["vendor","main"];
+                var orders = ["treasureHunt"];
                 return orders.indexOf(a.names[0])-orders.indexOf(b.names[0]);
             }
         }),
@@ -107,7 +98,6 @@ module.exports = {
                         loader:'url-loader',
                         options: {
                             limit: 8192,
-                            publicPath: '../',
                             name: '[path][name].[ext]?[hash]'
                         }
                     }
@@ -139,9 +129,7 @@ module.exports = {
         ]
     },
     externals: {
-        "vue": "Vue",
-        "vuex": "Vuex",
-        "vue-router": "VueRouter"
+        "vue": "Vue"
     },
     // 其他配置
     resolve: {
@@ -160,12 +148,12 @@ if (process.env.NODE_ENV === 'production') {
                 NODE_ENV: '"production"'
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            mangle: false
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     },
+        //     mangle: false
+        // }),
         new webpack.BannerPlugin(pluginsText)
     ])
 } else {

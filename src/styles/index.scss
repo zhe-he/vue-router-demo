@@ -1,25 +1,194 @@
-html,body{
-	font-size: 16px;
-	line-height: 24px;
+@import "./base";
+html,body,#app{
+    height: 100%;
+}
+.tip{
+    display: flex;
+    position: fixed;
+    left: 50%;
+    bottom: 0.83rem;
+    margin-left: -3.2rem;
+    width: 6.4rem;
+    height: 0.49rem;
+    padding: 0 0.9rem;
+    box-sizing: border-box;
+    justify-content: space-between;
+
+    > a{
+        overflow: hidden;
+        display: block;
+        width: 1.87rem;
+        height: 0.49rem;
+        text-indent: -9999px;
+        &:first-child{
+            @include bg('my.png');
+        }
+        &:last-child{
+            @include bg('rule.png');
+        }
+    }
+}
+.rule-box,.prize{
+    z-index: 500;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -2.8rem;
+    margin-top: -4.5rem;
+    width: 5.6rem;
+    height: 9rem;
+    background-color: rgba(255,255,255,0.85);
+    transform:scale(0);
+    &.show{
+        animation: bounceIn 1.3s 0s ease both;
+    }
+    h2{
+        position: absolute;
+        top: 0.73rem;
+        left: 0;
+        width: 100%;
+        height: 0.48rem;
+        background-position: center center;
+    }
+}
+.rule-box{
+    h2{
+        @include bg('font-rule-t.png',2.02rem,100%);
+    }
+    p{
+        position: absolute;
+        top: 2.07rem;
+        left: 0;
+        width: 100%;
+        height: 4.65rem;
+        @include bg('font-rule.png',4.28rem,100%);
+        background-position: center center;
+    }
+    
+}
+.prize{
+    h2{
+        @include bg('static/prize.png',1.84rem,0.44rem);
+    }
+    ul{
+        position: absolute;
+        top: 1.77rem;
+        left: 50%;
+        margin-left: -2.57rem;
+        width: 5.15rem;
+        overflow: hidden;
+        li{
+            width: 2.55rem;
+            height: 3.21rem;
+            background-size: 200% 200%;
+            margin-bottom: 0.05rem;
+            @include bg('blank.png');
+            &.active{
+                @include bg('card.jpg');
+            }
+            &:nth-child(2n+1){
+                float: left;
+            }
+            &:nth-child(2n){
+                float: right;
+            }
+            &:nth-child(2){
+                background-position: 100% 0;
+            }
+            &:nth-child(3){
+                background-position: 0 100%;
+            }
+            &:nth-child(4){
+                background-position: 100% 100%;
+            }
+        }
+    }
 }
 
-#app{
-	position: relative;
+
+.scene{
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 100%;
+    height: 100%;
+    -webkit-overflow-scrolling : touch;
+    display: flex;
+    img{
+        display: block;
+        height: 100%;
+    }
+    /*span{
+        opacity: 0.5;
+        background: red;
+    }*/
 }
-.flex{
-	display: flex;
-	box-align: center;
-	align-items: center;
-	.flex-child{
-		display: block;
-		flex: 1;
-	} 
+.hide{
+    display: none;
+}
+.toast{
+    position: fixed;
+    left: 50%;
+    bottom: 1.8rem;
+    margin-left: -2.22rem;
+    width: 4.44rem;
+    line-height: 0.8rem;
+    text-align: center;
+    color: rgba(255,255,255,.7);
+    @include bg('toast.png');
+    opacity: 0;
+    transform: translateY(30px);
+    transition: .6s;
+
+    &.active{
+        opacity: 1;
+        transform:translateY(0px);
+    }
 }
 
-.flex2{
-	@extend .flex;
-	box-orient: vertical;
-	flex-direction: column;
+::-webkit-scrollbar {
+    width:0px;
+    height:0px;
+    background: rgba(0,0,0,0);
+    opacity: 0;
+}
+::-webkit-scrollbar-button{
+    opacity: 0;
+    background: rgba(0,0,0,0);
+}
+::-webkit-scrollbar-track{
+    background: rgba(0,0,0,0);
+    opacity: 0;
+}
+::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,0);
+    opacity: 0;
+}
+::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+    opacity: 0;
+}
+::-webkit-scrollbar-resizer{
+    background: rgba(0,0,0,0);
+    opacity: 0;
 }
 
-[v-cloak]{display:none;}
+
+@keyframes bounceIn{
+    0%{
+        opacity:0;
+        transform:scale(.3);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.02);
+    }
+    70%{
+        opacity:1;
+        transform:scale(.95);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}

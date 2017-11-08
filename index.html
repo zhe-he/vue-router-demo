@@ -6,14 +6,56 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
-    <title>vue-router</title>
-    <link href="images/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed">
-    <script type="text/javascript" src="/js/vue.js"></script>
-    <script type="text/javascript" src="/js/vuex.js"></script>
-    <script type="text/javascript" src="/js/vue-router.js"></script>
-    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <title>双11寻宝拼图</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/vendor.js"></script>
+    <script type="text/javascript">
+        window.openId = 'wxId123456';
+    </script>
 </head>
 <body>
-    <div id="app"></div>
+    <div v-cloak id="app">
+        <div :class="['scene',level==1?'':'hide']">
+            <img src="images/static/screen_a1.jpg"/>
+            <img src="images/static/screen_a2.jpg"/>
+            <span @click="showToast(key)" v-for="key in card1" 
+            :style="{position:'absolute',top:key.y*scale+'px',left:key.x*scale+'px',
+            width:key.w*scale+'px',height:key.h*scale+'px'}" 
+            ></span>
+        </div>
+        <div :class="['scene',level==2?'':'hide']">
+            <img src="images/static/screen_b.jpg"/>
+            <span @click="showToast(key)" v-for="key in card2" 
+            :style="{position:'absolute',top:key.y*scale+'px',left:key.x*scale+'px',
+            width:key.w*scale+'px',height:key.h*scale+'px'}" 
+            ></span>
+        </div>
+        <div :class="['scene',level==3?'':'hide']">
+            <img src="images/static/screen_c.jpg"/>
+            <span @click="showToast(key)" v-for="key in card3" 
+            :style="{position:'absolute',top:key.y*scale+'px',left:key.x*scale+'px',
+            width:key.w*scale+'px',height:key.h*scale+'px'}" 
+            ></span>
+        </div>
+        <div :class="['scene',level==4?'':'hide']">
+            <img src="images/static/screen_d.jpg"/>
+            <span @click="showToast(key)" v-for="key in card4" 
+            :style="{position:'absolute',top:key.y*scale+'px',left:key.x*scale+'px',
+            width:key.w*scale+'px',height:key.h*scale+'px'}" 
+            ></span>
+        </div>
+
+        <div :class="['toast',showMsg?'active':'']">{{msg}}</div>
+
+        <footer class="tip">
+            <a @click="showPrize=true" class="a_c" href="javascript:;">我的拼图</a>
+            <a @click="showRule=true" class="a_c" href="javascript:;">游戏规则</a>
+        </footer>
+        <div @click="showRule=false" :class="['rule-box',showRule?'show':'']"><h2></h2><p></p></div>
+        <div @click="showPrize=false" :class="['prize',showPrize?'show':'']">
+            <h2></h2>
+            <ul><li v-for="item in prize" :class="item.has?'active':''"></li></ul>
+        </div>
+    </div>
 </body>
 </html>
