@@ -25,8 +25,7 @@
         
         <div class="tips">{{tips[level-1]}}</div>
         <div :class="['scene',level==1?'':'hide']">
-            <img src="images/static/screen_a1.jpg"/>
-            <img src="images/static/screen_a2.jpg"/>
+            <img src="images/static/screen_a.jpg"/>
             <span @click="showToast(key)" v-for="key in card1" 
             :style="{position:'absolute',top:key.y*scale+'px',left:key.x*scale+'px',
             width:key.w*scale+'px',height:key.h*scale+'px'}" 

@@ -9,7 +9,7 @@ require("../styles/reset.scss");
     var docEl = doc.documentElement,
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
         recalc = function () {
-            var clientWidth = docEl.clientWidth || doc.body.clientWidth;
+            var clientWidth =  docEl.clientWidth || doc.body.clientWidth;
             if (!clientWidth) return;
             if (clientWidth >= 640) {
                 clientWidth = 640;
@@ -23,6 +23,7 @@ require("../styles/reset.scss");
 
 window.addEventListener('DOMContentLoaded',()=>{
     FastClick.attach(document.body);
+    recalc();
 },false);
 
 if (!window.Promise) {

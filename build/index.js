@@ -57,7 +57,7 @@ module.exports = {
     module: {
         rules: [
             { test: /\.html$/, use: ['html-loader'] },
-            { test: /\.js$/, exclude: /node_modules|libs/, use: [{ loader:'babel-loader' }] },
+            { test: /\.js$/, exclude: /node_modules/, use: [{ loader:'babel-loader' }] },
             { test: /\.tsx?$/, use: [{ loader: 'ts-loader' }] },
             { test: /\.css$/, exclude: /libs/, use: cssLoader },
             { test: /\.(scss|sass)$/, use: cssLoader.concat({loader:'sass-loader'}) },
