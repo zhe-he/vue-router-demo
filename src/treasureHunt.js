@@ -18,7 +18,7 @@ new Vue({
         showMsg: false,
         msgTimer: null,
         level: 0,
-        tips: ["这一关的线索是跟“记录”有关哦","这一关的线索是“绿色”","这一关的提示是凉快","这一关的提示是“美妙”"],
+        tips: ["这一关的线索是跟“记录”有关哦","这一关的线索是“绿色”","这一关的提示是“凉快”","这一关的提示是“美妙”"],
         rPrize: {},
         isEnd: false
     },
@@ -35,8 +35,33 @@ new Vue({
             });
         }
         this.rPrize = this.rndPrize();
+        this.$nextTick(()=>{
+            this.nativaEffect();
+        })
+        
     },
     methods: {
+        nativaEffect(){
+            // 音乐
+            var music = document.getElementById('music');
+            var musicBtn = document.getElementById('music-btn');
+            var hasMusic = true;
+            musicBtn.onclick = function (){
+                if(/close/.test(this.className)){
+                    this.className = 'music';
+                    music.play();
+                    hasMusic = true;
+                }else{
+                    this.className = 'music close';
+                    music.pause();
+                    hasMusic = false;
+                }
+            }
+            // 微信音乐自动播放
+            document.addEventListener("WeixinJSBridgeReady", function () {  
+                music.play();
+            }, false);
+        },
         rndPrize(){
             var t = Math.random();
             var msgL = "恭喜您，找齐碎片。获得";

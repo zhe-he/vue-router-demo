@@ -168,13 +168,13 @@ html,body,#app{
     top: 1rem;
     left: 50%;
     margin-left: -2rem;
-    width: 4rem;
+    width: 3.5rem;
     line-height: 0.5rem;
     padding: 0.25rem 0.2rem;
     text-align: center;
     background-color: rgba(0,0,0,0.25);
     border-radius: 5px;
-    font-size: 0.34rem;
+    font-size: 0.3rem;
     color: #fff;
 }
 .hide{
@@ -204,6 +204,23 @@ html,body,#app{
     }
 }
 
+.music{
+    z-index: 10000;
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    background: url(../../images/music.png) no-repeat;
+    background-size: 0.6rem;
+    animation: rotate1 2s linear infinite;
+    transform: scaleX(0.7) scaleY(0.7);
+}
+.music.close{
+    background-position: 0 -0.83rem;
+    animation: none;
+}
+
 ::-webkit-scrollbar {
     width:0px;
     height:0px;
@@ -229,6 +246,13 @@ html,body,#app{
 ::-webkit-scrollbar-resizer{
     background: rgba(0,0,0,0);
     opacity: 0;
+}
+
+
+
+@keyframes rotate1{
+    0%{transform: rotate(0deg) scaleX(0.7) scaleY(0.7)}
+    100%{transform: rotate(360deg) scaleX(0.7) scaleY(0.7)}
 }
 
 

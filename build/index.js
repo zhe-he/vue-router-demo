@@ -33,6 +33,7 @@ module.exports = {
         new CopyWebpackPlugin([
             {from: 'images/static/**/*'},
             {from: srcVue, to: 'js/vue.js'},
+            {from: 'index.mp3', to: 'index.mp3'},
             {from: 'read.md', to: 'readme.md'}
         ]),
         new HtmlWebpackPlugin({
