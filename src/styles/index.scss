@@ -57,11 +57,11 @@ html,body,#app{
     }
     p{
         position: absolute;
-        top: 2.07rem;
+        top: 1.8rem;
         left: 0;
         width: 100%;
-        height: 4.65rem;
-        @include bg('font-rule.png',4.28rem,100%);
+        height: 6.4rem;
+        @include bg('font-rule.png',4.47rem,100%);
         background-position: center center;
     }
     
@@ -80,26 +80,26 @@ html,body,#app{
         li{
             width: 2.55rem;
             height: 3.21rem;
-            background-size: 200% 200%;
             margin-bottom: 0.05rem;
             @include bg('blank.png');
-            &.active{
-                @include bg('card.jpg');
-            }
+            
             &:nth-child(2n+1){
                 float: left;
             }
             &:nth-child(2n){
                 float: right;
             }
-            &:nth-child(2){
-                background-position: 100% 0;
+            &.active:nth-child(1){
+                @include bg('card1.jpg');
             }
-            &:nth-child(3){
-                background-position: 0 100%;
+            &.active:nth-child(2){
+                @include bg('card2.jpg');
             }
-            &:nth-child(4){
-                background-position: 100% 100%;
+            &.active:nth-child(3){
+                @include bg('card3.jpg');
+            }
+            &.active:nth-child(4){
+                @include bg('card4.jpg');
             }
         }
     }
@@ -123,17 +123,75 @@ html,body,#app{
         background: red;
     }*/
 }
+
+.door{
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    margin-left: -3.2rem;
+    width: 6.4rem;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .hand{
+        width: 100%;
+        height: 0.2rem;
+        @include bg('handler.png',1.2rem,100%);
+        background-position: center center;
+        animation: fadeInDown 1s .5s ease both;
+    }
+    .img{
+        width: 100%;
+        margin-top: 0.4rem;
+        height: 6.01rem;
+        @include bg('door.jpg',3.72rem,100%);
+        background-position: center center;
+        animation: bounceIn 1s 0.2s ease both;
+    }
+    .msg{
+        margin-top: 0.45rem;
+        width: 100%;
+        height: 0.88rem;
+        @include bg('msg.png',4.02rem,100%);
+        background-position: center center;
+        animation: fadeInUp 1s 1.5s ease both;
+    }
+}
+.tips{
+    z-index: 8;
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    margin-left: -2rem;
+    width: 4rem;
+    line-height: 0.5rem;
+    padding: 0.25rem 0.2rem;
+    text-align: center;
+    background-color: rgba(0,0,0,0.25);
+    border-radius: 5px;
+    font-size: 0.34rem;
+    color: #fff;
+}
 .hide{
     display: none;
 }
 .toast{
+    z-index: 1000;
     position: fixed;
     left: 50%;
     bottom: 1.8rem;
     margin-left: -2.22rem;
     width: 4.44rem;
-    line-height: 0.8rem;
+    line-height: 0.5rem;
+    padding: 0.25rem 0.2rem;
+    box-sizing: border-box;
     text-align: center;
+    font-size: 0.34rem;
     color: rgba(255,255,255,.7);
     @include bg('toast.png');
     opacity: 0;
@@ -191,4 +249,28 @@ html,body,#app{
         opacity:1;
         transform:scale(1);
     }
+}
+
+@keyframes fadeInUp{
+0%{
+    opacity:0;
+    transform:translateY(20px)}
+100%{
+    opacity:1;
+    transform:translateY(0)}
+}
+
+@keyframes fadeInDown{
+0%{
+    opacity:0;
+    transform:translateY(-20px)}
+100%{
+    opacity:1;
+    transform:translateY(0)}
+}
+
+
+@keyframes flash{
+0%,50%,100%{opacity: 1;}
+25%,75%{opacity: 0.2;}
 }

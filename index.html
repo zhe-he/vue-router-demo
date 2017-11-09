@@ -15,6 +15,13 @@
 </head>
 <body>
     <div v-cloak id="app">
+        <div :class="['door',level==0?'':'hide']">
+            <div class="hand"></div>
+            <div @click="level=1" class="img"></div>
+            <div class="msg"></div>
+        </div>
+        
+        <div class="tips">{{tips[level-1]}}</div>
         <div :class="['scene',level==1?'':'hide']">
             <img src="images/static/screen_a1.jpg"/>
             <img src="images/static/screen_a2.jpg"/>
