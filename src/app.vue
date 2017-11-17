@@ -10,9 +10,9 @@
     </div>
 </template>
 
-<style type="text/css">
-    @import "./styles/reset.scss";
-    @import "./styles/index.scss";
+<style lang="scss">
+    @import "./styles/reset";
+    @import "./styles/index";
 </style>
 <script type="text/javascript">
     import msg from './modules/msg';

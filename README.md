@@ -3,18 +3,16 @@
 ## install 	
 `npm install` 	
 
-### run 	
-`npm run start` or `webpack`	
 ### watch 	
-`npm run watch` or `webpack --watch`	
+`npm run watch` 
 ### build 	
-`npm run build` or `webpack -p` 	
+`npm run build` 
 ### dev 
-`npm run dec` or `node server` 	
+`npm run dev`   
 ### pack    
-`npm run pack` or `node config/pack`    
+`npm run pack`   
 ### clean   
-`npm run clean` or `node config/clean`  
+`npm run clean` 
 
 ### how to use 	
 You just need to run `npm run dev`. 	
@@ -34,7 +32,7 @@ You just need to run `npm run dev`.
 1. src/router vue-router路由文件    
 1. images/ 图片目录 
 1. images/static/ 此文件夹下 图片/目录 不会被压缩、base64处理     
-1. config/ 某些配置信息，与项目无关 
+1. config/ 配置信息 
 1. dist/ 输出/上线 目录，所有被编译的文件都会输出到此目录   
 
 *截止到2017-09-21 15:54，package.json模块最新版*   
