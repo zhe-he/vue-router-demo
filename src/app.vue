@@ -4,7 +4,6 @@
             <router-view v-if="$route.meta.keepAlive"></router-view>
         </keep-alive>
         <router-view v-if="!$route.meta.keepAlive"></router-view>
-        
         <msg :status="toast.status" :msg="toast.msg"></msg>
         <loading :status="loadStatus"></loading>
     </div>
@@ -15,11 +14,11 @@
     @import "./styles/index";
 </style>
 <script type="text/javascript">
-    import msg from './modules/msg';
-    import loading from './modules/loading';
-    import FastClick from 'fastclick';
-    import "./libs/autosize.js";
-    import { mapState } from "vuex";
+    import msg from './modules/msg'
+    import loading from './modules/loading'
+    import FastClick from 'fastclick'
+    import "./libs/autosize.js"
+    import { mapState } from "vuex"
 
     export default {
         data (){
@@ -28,10 +27,10 @@
             }
         },
         computed: {
-            ...mapState(["loadStatus","toast"])
+            ...mapState(["loadStatus", "toast"])
         },
         created(){
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
                 FastClick.attach(document.body);
             })
         },

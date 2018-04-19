@@ -6,14 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
 
 const DIST = 'dist';
-var srcVue = 'node_modules/vue/dist/vue.js';
-var srcVuex = 'node_modules/vuex/dist/vuex.js';
-var srcVueRouter = 'node_modules/vue-router/dist/vue-router.js';
-if (process.env.NODE_ENV === 'production') {
-    srcVue = srcVue.replace('vue.js','vue.min.js');
-    srcVuex = srcVuex.replace('vuex.js','vuex.min.js');
-    srcVueRouter = srcVueRouter.replace('vue-router.js','vue-router.min.js');
-}
 
 const cssLoader = [
     {loader:'style-loader'},
@@ -21,10 +13,14 @@ const cssLoader = [
     {loader: 'postcss-loader'}
 ];
 const vueSassConfig = 'css-loader!sass-loader';
+function resolve (dir) {
+    return path.join(__dirname, '..', dir)
+}
 module.exports = {
     // 页面入口文件配置
+    context: path.resolve(__dirname, '../'),
     entry: {
-        "vendor": ['babel-polyfill'],
+        "vendor": ['babel-polyfill','vue','vue-router','vuex','fastclick'],
         "main": 'src/main.js'
     },
     // 入口文件输出配置
@@ -32,16 +28,13 @@ module.exports = {
         publicPath: '/',
         path: path.resolve(__dirname, `../${DIST}`),
         filename: 'js/[name].js',
-        chunkFilename: 'js/chunk/[name].js?[hash]',
+        chunkFilename: 'js/chunk/[name].js?',
     },
     // 插件项
     plugins: [
         new ExtractTextPlugin("css/vueStyle.css"),
         new CopyWebpackPlugin([
-            {from: 'images/static/**/*'},
-            {from: srcVue, to: 'js/vue.js'},
-            {from: srcVuex, to: 'js/vuex.js'},
-            {from: srcVueRouter, to: 'js/vue-router.js'}
+            {from: 'images/static/**/*'}
         ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
@@ -101,47 +94,31 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                exclude: /static/,
-                use: [
-                    {
-                        loader:'url-loader',
-                        options: {
-                            limit: 8192,
-                            publicPath: '../',
-                            name: '[path][name].[ext]?[hash]'
-                        }
-                    }
-                ]
+                loader:'url-loader',
+                options: {
+                    limit: 10000,
+                    publicPath: '/',
+                    name: 'images/[name]-[hash:8].[ext]'
+                }
             },
             {
-                test: /\.(png|jpe?g|gif)$/,
-                include: /static/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[path][name].[ext]?[hash]'
-                        }
-                    }
-                ]
+                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    publicPath: '/',
+                    name: 'media/[name]-[hash:8].[ext]'
+                }
             },
             {
                 test: /\.(ttf|woff2?|svg|eot)$/,
-                use: [
-                    {
-                        loader:'file-loader',
-                        options: {
-                            name: '[path][name].[ext]?[hash]'
-                        }
-                    }
-                ]
+                loader:'file-loader',
+                options: {
+                    publicPath: '/',
+                    name: 'fonts/[name]-[hash:8].[ext]'
+                }
             }
         ]
-    },
-    externals: {
-        "vue": "Vue",
-        "vuex": "Vuex",
-        "vue-router": "VueRouter"
     },
     // 其他配置
     resolve: {
@@ -149,31 +126,24 @@ module.exports = {
             process.cwd(),
             "node_modules"
         ],
-        extensions: ['.ts','.js','.vue','.json']
-    }
+        extensions: ['.js','.vue','.json']
+    },
+    mode: process.env.NODE_ENV
 };
 
 if (process.env.NODE_ENV === 'production') {
     module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            mangle: false
-        }),
         new webpack.BannerPlugin(pluginsText)
     ])
 } else {
     module.exports.module.rules.unshift({
         test: /\.(js|vue)$/,
-        exclude: /libs/,
         loader: "eslint-loader", 
-        // options: { configFile: '.eslintrc'},
-        enforce: 'pre'
+        enforce: 'pre',
+        include: [resolve('src')],
+        options: {
+            formatter: require('eslint-friendly-formatter'),
+            emitWarning: false
+        }
     })
 }

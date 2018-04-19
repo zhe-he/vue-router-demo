@@ -1,10 +1,12 @@
-import Vuex from 'vuex';
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import * as actions from './actions'
+import * as mutations from './mutations'
+import * as getters from './getters'
 
 const debug = process.env.NODE_ENV !== 'production';
 
+Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         loadStatus: 0,
@@ -18,10 +20,9 @@ const store = new Vuex.Store({
     actions,
     mutations,
     strict: debug
-})
+});
 
-
-if(module.hot){
+if (module.hot) {
     module.hot.accept([
         './getters',
         './actions',
