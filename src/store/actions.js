@@ -1,4 +1,4 @@
-const toast = ({commit}, payload) => {
+export const toast = ({commit}, payload) => {
     var msg, time;
     if (typeof payload === "object") {
         msg = payload.msg;
@@ -12,7 +12,3 @@ const toast = ({commit}, payload) => {
         fn: setTimeout(() => commit("hideMsg"), time || 1500)
     });
 };
-
-export {
-    toast
-}

@@ -16,23 +16,11 @@
 <script type="text/javascript">
     import msg from './modules/msg'
     import loading from './modules/loading'
-    import FastClick from 'fastclick'
-    import "./libs/autosize.js"
     import { mapState } from "vuex"
 
     export default {
-        data (){
-            return {
-
-            }
-        },
         computed: {
             ...mapState(["loadStatus", "toast"])
-        },
-        created(){
-            this.$nextTick(() => {
-                FastClick.attach(document.body);
-            })
         },
         components: {
             msg,

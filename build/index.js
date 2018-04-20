@@ -3,6 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
 
 const DIST = 'dist';
@@ -13,26 +14,23 @@ const cssLoader = [
     {loader: 'postcss-loader'}
 ];
 const vueSassConfig = 'css-loader!sass-loader';
+const isProduction = process.env.NODE_ENV === 'production';
+const outputFilename = isProduction ? '[name]-[hash:8].[ext]' : '[name].[ext]?[hash]';
+const outputJsname = isProduction ? '[name]-[chunkhash:8].js' : '[name].js';
+const outputCssName = isProduction ? "css/style-[hash:8].css" : "css/style.css";
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
 module.exports = {
-    // 页面入口文件配置
     context: path.resolve(__dirname, '../'),
-    entry: {
-        "vendor": ['babel-polyfill','vue','vue-router','vuex','fastclick'],
-        "main": 'src/main.js'
-    },
-    // 入口文件输出配置
     output: {
         publicPath: '/',
         path: path.resolve(__dirname, `../${DIST}`),
-        filename: 'js/[name].js',
-        chunkFilename: 'js/chunk/[name].js?',
+        filename: 'js/' + outputJsname,
+        chunkFilename: 'js/chunk/' + outputJsname
     },
-    // 插件项
     plugins: [
-        new ExtractTextPlugin("css/vueStyle.css"),
+        new ExtractTextPlugin(outputCssName),
         new CopyWebpackPlugin([
             {from: 'images/static/**/*'}
         ]),
@@ -45,24 +43,37 @@ module.exports = {
                 removeComments: true,
                 collapseWhitespace: true
             },
-            inject: "body",
-            hash: true,
-            chunks: ["vendor","main"],
-            chunksSortMode: function (a, b) {
-                var orders = ["vendor","main"];
-                return orders.indexOf(a.names[0])-orders.indexOf(b.names[0]);
+            inject: true,
+            hash: !isProduction
+        }),
+        new webpack.optimize.SplitChunksPlugin({
+            chunks: "all",
+            minSize: 30000,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            name: true,
+            cacheGroups: {
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10
+                }
             }
         }),
+        isProduction ? new webpack.BannerPlugin(pluginsText) : new FriendlyErrorsPlugin()
     ],
     module: {
         rules: [
-            { test: /\.html$/, use: ['html-loader'] },
-            { test: /\.js$/, use: [{ loader:'babel-loader' }] },
-            { test: /\.tsx?$/, use: [{ loader: 'ts-loader' }] },
+            { test: /\.js$/, include: [resolve('src')], use: [{ loader:'babel-loader' }] },
+            { test: /\.tsx?$/, include: [resolve('src')], use: [{ loader: 'ts-loader' }] },
             { test: /\.css$/, use: cssLoader },
             { test: /\.(scss|sass)$/, use: cssLoader.concat({loader:'sass-loader'}) },
-            { test: /\.(json|data)$/, use: ['json-loader'] },
-            { test: /\.(txt|md)$/, use: ['raw-loader'] },
+            { test: /\.json$/, type: "javascript/auto" },
             {
                 test: /\.vue$/,
                 use: [
@@ -97,8 +108,7 @@ module.exports = {
                 loader:'url-loader',
                 options: {
                     limit: 10000,
-                    publicPath: '/',
-                    name: 'images/[name]-[hash:8].[ext]'
+                    name: 'images/' + outputFilename
                 }
             },
             {
@@ -106,16 +116,14 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    publicPath: '/',
-                    name: 'media/[name]-[hash:8].[ext]'
+                    name: 'media/' + outputFilename
                 }
             },
             {
                 test: /\.(ttf|woff2?|svg|eot)$/,
                 loader:'file-loader',
                 options: {
-                    publicPath: '/',
-                    name: 'fonts/[name]-[hash:8].[ext]'
+                    name: 'fonts/' + outputFilename
                 }
             }
         ]
@@ -128,14 +136,18 @@ module.exports = {
         ],
         extensions: ['.js','.vue','.json']
     },
+    node: {
+        setImmediate: false,
+        dgram: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        child_process: 'empty'
+    },
     mode: process.env.NODE_ENV
 };
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.BannerPlugin(pluginsText)
-    ])
-} else {
+if (!isProduction) {
     module.exports.module.rules.unshift({
         test: /\.(js|vue)$/,
         loader: "eslint-loader", 

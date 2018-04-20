@@ -77,10 +77,6 @@
                 type: String | Number,
                 default: 1
             }
-        },
-        data(){
-            return {
-            }
         }
     }
 </script>

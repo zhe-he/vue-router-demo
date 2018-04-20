@@ -1,13 +1,13 @@
 const fs = require('fs');
 const archiver = require('archiver');
+const path = require('path');
 
-var toDou = n=>n<10?'0'+n:''+n;
+var toDou = n => n < 10 ? '0' + n: '' + n;
 
 var date = new Date();
-var name = date.getFullYear()+toDou(date.getMonth()+1)+toDou(date.getDate());
+var name = date.getFullYear() + toDou(date.getMonth() + 1) + toDou(date.getDate()) + toDou(date.getMinutes());
 var output = fs.createWriteStream(`${name}.zip`);
-var archive = archiver('zip',{store: true});
-
+var archive = archiver('zip', {store: true});
 
 output.on('close',()=>{
     console.log(archive.pointer()+' total bytes');
@@ -18,5 +18,5 @@ archive.on('error',err=>{
 });
 
 archive.pipe(output);
-archive.directory('dist','/');
+archive.directory(path.resolve(__dirname, '../dist'), '/');
 archive.finalize();

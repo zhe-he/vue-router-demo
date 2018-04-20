@@ -1,11 +1,11 @@
 {
   "name": "vue-router-demo",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "description": "vue-router,vue,webpack,vuex",
   "scripts": {
     "prebuild": "rm -rf ./dist",
-    "build": "cross-env NODE_ENV=production webpack -p --config build/ --progress --colors",
-    "dev": "cross-env NODE_ENV=development node build/dev-server --4010",
+    "build": "cross-env NODE_ENV=production webpack -p --config build --progress --colors",
+    "dev": "cross-env NODE_ENV=development node build/dev-client",
     "pack": "node build/build-pack",
     "clean": "node build/build-clean"
   },
@@ -45,9 +45,9 @@
     "fastclick": "^1.0.6",
     "fetch-jsonp": "^1.1.3",
     "file-loader": "^1.1.11",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "json-loader": "^0.5.7",
     "mint-ui": "^2.2.13",
     "node-sass": "^4.8.3",
     "postcss-cssnext": "^3.1.0",

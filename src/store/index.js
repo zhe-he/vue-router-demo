@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as mutations from './mutations'
 import * as getters from './getters'
+import createLogger from 'vuex/dist/logger'
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
     getters,
     actions,
     mutations,
-    strict: debug
+    strict: debug,
+    plugins: debug ? [createLogger()] : []
 });
 
 if (module.hot) {

@@ -8,7 +8,7 @@ var cfg = Object.assign(webpackBase, {
     devtool: "cheap-module-eval-source-map"
 });
 
-const port = process.argv[2]?process.argv[2].replace('--',''):4010;
+const port = 4010;
 const app = express();
 
 cfg.plugins = (webpackBase.plugins || []).concat(
@@ -25,13 +25,17 @@ for (var i = 0; i < cfg.module.rules.length; i++) {
     }
 }
 
-//entry 
+// other file change
+var chokidar = require('chokidar');
+chokidar.watch(__dirname+ '/index.js').on('change', function(){
+    process.send('restart');
+})
+
+//entry
 Object.getOwnPropertyNames((webpackBase.entry || {})).map(function (name) {
-    if (name != 'vendor') {
-        cfg.entry[name] = []
-            .concat("webpack-hot-middleware/client")
-            .concat(webpackBase.entry[name])
-    }
+    cfg.entry[name] = []
+        .concat("webpack-hot-middleware/client")
+        .concat(webpackBase.entry[name])
 });
 var compiler = webpack(cfg);
 
@@ -69,6 +73,7 @@ module.exports = app.listen(port, function(err) {
     }
     var url = 'http://localhost:' + port;
     console.log('Listening at ' + url + '\n')
-
-    opn(url);
+    if (process.env.RESTART !== "restart") {
+        opn(url);
+    }
 });

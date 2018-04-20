@@ -1,11 +1,11 @@
-/* 
+/*
  * by zhe-he
  * 特别说明 1rem = 100px
  */
 (function (doc, win) {
-    var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function () {
+    var docEl = doc.documentElement;
+    var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+    var recalc = function () {
             var clientWidth = docEl.clientWidth || doc.body.clientWidth;
             if (!clientWidth) return;
             if (clientWidth >= 750) {
