@@ -4,17 +4,17 @@
 `npm install` 	
 
 ### dev 
-`npm run dev`   
+`npm run dev` or `make run`   
 ### pack    
-`npm run pack`   
+`npm run pack` or `make pack`      
 ### clean   
-`npm run clean` 
+`npm run clean` or `make clean`   
 
 ### how to use 	
-You just need to run `npm run dev`. 	
+You just need to run `make run`     
 
 ### how to publish 	
-`npm run build` 	
+`make build`     
 
 
 ### 项目介绍    
