@@ -1,12 +1,16 @@
+import 'babel-polyfill'
+import Promise from 'promise-polyfill'
 import Vue from 'vue'
 import store from './store'
 import router from './router'
 import App from './app'
 import nav from './modules/nav'
 import FastClick from 'fastclick'
-import 'babel-polyfill'
 import './libs/autosize.js'
 
+if (!window.Promise) {
+    window.Promise = Promise
+}
 
 Vue.component('common-nav', nav);
 Vue.config.productionTip = false;

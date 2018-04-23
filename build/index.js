@@ -46,7 +46,7 @@ module.exports = {
             inject: true,
             hash: !isProduction
         }),
-        new webpack.optimize.SplitChunksPlugin({
+        /*new webpack.optimize.SplitChunksPlugin({
             chunks: "all",
             minSize: 30000,
             minChunks: 1,
@@ -64,7 +64,7 @@ module.exports = {
                     priority: -10
                 }
             }
-        }),
+        }),*/
         isProduction ? new webpack.BannerPlugin(pluginsText) : new FriendlyErrorsPlugin()
     ],
     module: {
