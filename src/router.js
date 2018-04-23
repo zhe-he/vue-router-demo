@@ -5,10 +5,15 @@ import Router from 'vue-router'
 import home from './views/home'
 import about from './views/about'
 
-const topic = r => require.ensure([], () => r(require('./views/topic/index.vue')), 'group-topic');
-const topicRen = r => require.ensure([], () => r(require('./views/topic/rendering.vue')), 'group-topic');
-const topicCom = r => require.ensure([], () => r(require('./views/topic/components.vue')), 'group-topic');
-const topicPro = r => require.ensure([], () => r(require('./views/topic/props-v-state.vue')), 'group-topic');
+// const topic = r => require.ensure([], () => r(require('./views/topic/index.vue')), 'group-topic');
+// const topicRen = r => require.ensure([], () => r(require('./views/topic/rendering.vue')), 'group-topic');
+// const topicCom = r => require.ensure([], () => r(require('./views/topic/components.vue')), 'group-topic');
+// const topicPro = r => require.ensure([], () => r(require('./views/topic/props-v-state.vue')), 'group-topic');
+
+const topic = () => import(/* webpackChunkName: "group-topic" */ './views/topic')
+const topicRen = () => import(/* webpackChunkName: "group-topic" */ './views/topic/rendering')
+const topicCom = () => import(/* webpackChunkName: "group-topic" */ './views/topic/rendering')
+const topicPro = () => import(/* webpackChunkName: "group-topic" */ './views/topic/rendering')
 
 Vue.use(Router);
 const routes = [{

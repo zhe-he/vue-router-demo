@@ -11,7 +11,6 @@ import './libs/autosize.js'
 if (!window.Promise) {
     window.Promise = Promise
 }
-
 Vue.component('common-nav', nav);
 Vue.config.productionTip = false;
 

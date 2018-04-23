@@ -1,26 +1,30 @@
 const webpack = require("webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const pluginsText = new Date().toLocaleString() + '\n\r * built by `zhe-he`';
+const pluginsText = '\r * built by `zhe-he` \r';
 
 const DIST = 'dist';
 
-const cssLoader = [
-    {loader:'style-loader'},
-    {loader: 'css-loader'},
-    {loader: 'postcss-loader'}
-];
-const vueSassConfig = 'css-loader!sass-loader';
 const isProduction = process.env.NODE_ENV === 'production';
-const outputFilename = isProduction ? '[name]-[hash:8].[ext]' : '[name].[ext]?[hash]';
-const outputJsname = isProduction ? '[name]-[chunkhash:8].js' : '[name].js';
-const outputCssName = isProduction ? "css/style-[hash:8].css" : "css/style.css";
+const cssLoader = [
+    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+    'css-loader',
+    'postcss-loader'
+];
+const sassLoader = cssLoader.concat('sass-loader');
+const vueCssLoader = cssLoader.slice(0,-1).join('!');
+const vueSassLoader = vueCssLoader + '!sass-loader';
+
+const outputFilename = isProduction ? '[name].[hash:8].[ext]' : '[name].[ext]?[hash]';
+const outputJsname = isProduction ? '[name].[chunkhash:8].js' : '[name].js';
+
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
+
 module.exports = {
     context: path.resolve(__dirname, '../'),
     output: {
@@ -30,7 +34,10 @@ module.exports = {
         chunkFilename: 'js/chunk/' + outputJsname
     },
     plugins: [
-        new ExtractTextPlugin(outputCssName),
+        new MiniCssExtractPlugin({
+            filename: isProduction ? 'css/[name].[hash:8].css' : 'css/[name].css',
+            chunkFilename: isProduction ? 'css/[id].[hash:8].css' : 'css/[id].css'
+        }),
         new CopyWebpackPlugin([
             {from: 'images/static/**/*'}
         ]),
@@ -46,7 +53,7 @@ module.exports = {
             inject: true,
             hash: !isProduction
         }),
-        /*new webpack.optimize.SplitChunksPlugin({
+        new webpack.optimize.SplitChunksPlugin({
             chunks: "all",
             minSize: 30000,
             minChunks: 1,
@@ -64,15 +71,15 @@ module.exports = {
                     priority: -10
                 }
             }
-        }),*/
+        }),
         isProduction ? new webpack.BannerPlugin(pluginsText) : new FriendlyErrorsPlugin()
     ],
     module: {
         rules: [
-            { test: /\.js$/, include: [resolve('src')], use: [{ loader:'babel-loader' }] },
-            { test: /\.tsx?$/, include: [resolve('src')], use: [{ loader: 'ts-loader' }] },
+            { test: /\.js$/, include: [resolve('src')], loader:'babel-loader' },
+            { test: /\.tsx?$/, include: [resolve('src')], loader: 'ts-loader' },
             { test: /\.css$/, use: cssLoader },
-            { test: /\.(scss|sass)$/, use: cssLoader.concat({loader:'sass-loader'}) },
+            { test: /\.(scss|sass)$/, use: sassLoader },
             { test: /\.json$/, type: "javascript/auto" },
             {
                 test: /\.vue$/,
@@ -85,18 +92,9 @@ module.exports = {
                                 camelCase: true
                             },
                             loaders: {
-                                scss: ExtractTextPlugin.extract({
-                                    use: vueSassConfig,
-                                    fallback: 'vue-style-loader'
-                                }),
-                                sass: ExtractTextPlugin.extract({
-                                    use: `${vueSassConfig}?indentedSyntax`,
-                                    fallback: 'vue-style-loader'
-                                }),
-                                css: ExtractTextPlugin.extract({
-                                    use: 'css-loader',
-                                    fallback: 'vue-style-loader'
-                                }),
+                                scss: vueSassLoader,
+                                sass: vueSassLoader + '?indentedSyntax',
+                                css: vueCssLoader,
                                 js: 'babel-loader'
                             }
                         }
