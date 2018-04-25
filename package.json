@@ -76,6 +76,7 @@
     "express": "^4.16.3",
     "http-proxy-middleware": "^0.18.0",
     "opn": "^5.3.0",
+    "portfinder": "^1.0.13",
     "webpack-dev-middleware": "^3.1.2",
     "webpack-hot-middleware": "^2.22.1"
   }

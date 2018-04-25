@@ -8,7 +8,7 @@ var cfg = Object.assign(webpackBase, {
     devtool: "cheap-module-eval-source-map"
 });
 
-const port = 4010;
+const port = process.env.NODE_PORT;
 const app = express();
 
 cfg.plugins = (webpackBase.plugins || []).concat(
