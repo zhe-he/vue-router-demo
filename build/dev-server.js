@@ -4,24 +4,24 @@ const webpack = require('webpack');
 const opn = require('opn');
 const proxyMiddleware = require('http-proxy-middleware');
 const webpackBase = require("./index");
-var cfg = Object.assign(webpackBase, {
+const portfinder = require('portfinder');
+var config = Object.assign(webpackBase, {
     devtool: "cheap-module-eval-source-map"
 });
 
-const port = process.env.NODE_PORT;
 const app = express();
 
-cfg.plugins = (webpackBase.plugins || []).concat(
+config.plugins = (webpackBase.plugins || []).concat(
     new webpack.HotModuleReplacementPlugin()
 );
 
 // css-hot-loader
-for (var i = 0; i < cfg.module.rules.length; i++) {
-    let item = cfg.module.rules[i];
+for (var i = 0; i < config.module.rules.length; i++) {
+    let item = config.module.rules[i];
     if (/\.vue/.test(item.test) && item.enforce != "pre") {
-        cfg.module.rules[i].use[0].options.loaders.scss = ['css-hot-loader'].concat(item.use[0].options.loaders.scss);
-        cfg.module.rules[i].use[0].options.loaders.sass = ['css-hot-loader'].concat(item.use[0].options.loaders.sass);
-        cfg.module.rules[i].use[0].options.loaders.css = ['css-hot-loader'].concat(item.use[0].options.loaders.css);
+        config.module.rules[i].use[0].options.loaders.scss = ['css-hot-loader'].concat(item.use[0].options.loaders.scss);
+        config.module.rules[i].use[0].options.loaders.sass = ['css-hot-loader'].concat(item.use[0].options.loaders.sass);
+        config.module.rules[i].use[0].options.loaders.css = ['css-hot-loader'].concat(item.use[0].options.loaders.css);
     }
 }
 
@@ -33,11 +33,11 @@ chokidar.watch(__dirname+ '/index.js').on('change', function(){
 
 //entry
 Object.getOwnPropertyNames((webpackBase.entry || {})).map(function (name) {
-    cfg.entry[name] = []
+    config.entry[name] = []
         .concat("webpack-hot-middleware/client")
         .concat(webpackBase.entry[name])
 });
-var compiler = webpack(cfg);
+var compiler = webpack(config);
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: webpackBase.output.publicPath,
@@ -48,7 +48,6 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
         chunks: false
     }
 });
-
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler)
 // force page reload when html-webpack-plugin template changes
@@ -65,15 +64,21 @@ app.use(require('connect-history-api-fallback')());
 app.use(devMiddleware);
 app.use(hotMiddleware);
 
-
-module.exports = app.listen(port, function(err) {
-    if (err) {
-        console.log(err)
-        return
-    }
-    var url = 'http://localhost:' + port;
-    console.log('Listening at ' + url + '\n')
-    if (process.env.RESTART !== "restart") {
-        opn(url);
-    }
+module.exports = new Promise((reslove, reject) => {
+    portfinder.getPortPromise().then(port => {
+        app.listen(port, function(err) {
+            if (err) {
+                console.log('\x1B[31m', err)
+                return
+            }
+            var url = 'http://localhost:' + port;
+            console.log('Listening at ' + url + '\n')
+            if (process.env.NODE_RESTART !== "restart") {
+                opn(url);
+            }
+        });
+        reslove(app);
+    }).catch(e => {
+        reject(e);
+    })
 });
