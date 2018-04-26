@@ -27,6 +27,9 @@ function resolve (dir) {
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
+    entry: {
+        main: "src/index.js"
+    },
     output: {
         publicPath: '/',
         path: path.resolve(__dirname, `../${DIST}`),
