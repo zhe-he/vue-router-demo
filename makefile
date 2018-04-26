@@ -3,10 +3,10 @@ SHELL := /bin/bash
 .PHONY: build
 
 build: node_modules
-	export NODE_ENV=production && rm -rf ./dist && webpack -p --config build --progress --colors
+	cross-env NODE_ENV=production && rm -rf ./dist && webpack -p --config build --progress --colors
 
 run: node_modules
-	export NODE_ENV=development && node build/dev-client
+	cross-env NODE_ENV=development && node build/dev-client
 
 pack: node_modules
 	node build/build-pack
