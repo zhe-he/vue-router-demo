@@ -2,7 +2,6 @@
     <ul>
         <router-link tag="li" to="/home">/home</router-link>
         <router-link tag="li" to="/about">/about</router-link>
-        <router-link tag="li" to="/topic">/topic</router-link>
     </ul>
 </template>
 

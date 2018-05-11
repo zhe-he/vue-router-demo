@@ -14,6 +14,9 @@ pack: node_modules
 clean: node_modules
 	node build/build-clean
 
+test: node_modules
+	node build/build-server
+
 node_modules: 
 	cnpm install
 	

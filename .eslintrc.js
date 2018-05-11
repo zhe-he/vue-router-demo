@@ -27,6 +27,7 @@ module.exports = {
         'space-before-function-paren': [0, 'always'],
         'semi': 'off',
         'eol-last': 'off',
-        'quotes': 'off'
+        'quotes': 'off',
+        'no-multiple-empty-lines': 'off'
     }
 }

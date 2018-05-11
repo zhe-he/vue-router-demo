@@ -33,16 +33,16 @@ module.exports = {
     output: {
         publicPath: '/',
         path: path.resolve(__dirname, `../${DIST}`),
-        filename: 'js/' + outputJsname,
-        chunkFilename: 'js/chunk/' + outputJsname
+        filename: 'static/js/' + outputJsname,
+        chunkFilename: 'static/js/' + outputJsname
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: isProduction ? 'css/[name].[hash:8].css' : 'css/[name].css',
-            chunkFilename: isProduction ? 'css/[id].[hash:8].css' : 'css/[id].css'
+            filename: isProduction ? 'static/css/[name].[hash:8].css' : 'static/css/[name].css',
+            chunkFilename: isProduction ? 'static/css/[id].[hash:8].css' : 'static/css/[id].css'
         }),
         new CopyWebpackPlugin([
-            {from: 'images/static/**/*'}
+            {from: 'images/static/**/*', to: 'static'}
         ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
@@ -69,9 +69,10 @@ module.exports = {
                     priority: -20,
                     reuseExistingChunk: true,
                 },
-                vendors: {
+                main: {
                     test: /[\\/]node_modules[\\/]/,
-                    priority: -10
+                    priority: -10,
+                    name: 'main'
                 }
             }
         }),
@@ -109,7 +110,7 @@ module.exports = {
                 loader:'url-loader',
                 options: {
                     limit: 10000,
-                    name: 'images/' + outputFilename
+                    name: 'static/images/' + outputFilename
                 }
             },
             {
@@ -117,14 +118,14 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name: 'media/' + outputFilename
+                    name: 'static/media/' + outputFilename
                 }
             },
             {
                 test: /\.(ttf|woff2?|svg|eot)$/,
                 loader:'file-loader',
                 options: {
-                    name: 'fonts/' + outputFilename
+                    name: 'static/fonts/' + outputFilename
                 }
             }
         ]
@@ -135,7 +136,10 @@ module.exports = {
             process.cwd(),
             "node_modules"
         ],
-        extensions: ['.js','.vue','.json']
+        extensions: ['.js','.vue','.json'],
+        alias: {
+            '@': resolve('src')
+        }
     },
     node: {
         setImmediate: false,

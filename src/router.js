@@ -1,19 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// const home = r => require(['./home.vue'], r);
-import home from './views/home'
-import about from './views/about'
+import home from '@/views/home'
+import about from '@/views/about'
 
 // const topic = r => require.ensure([], () => r(require('./views/topic/index.vue')), 'group-topic');
-// const topicRen = r => require.ensure([], () => r(require('./views/topic/rendering.vue')), 'group-topic');
-// const topicCom = r => require.ensure([], () => r(require('./views/topic/components.vue')), 'group-topic');
-// const topicPro = r => require.ensure([], () => r(require('./views/topic/props-v-state.vue')), 'group-topic');
-
-const topic = () => import(/* webpackChunkName: "group-topic" */ './views/topic')
-const topicRen = () => import(/* webpackChunkName: "group-topic" */ './views/topic/rendering')
-const topicCom = () => import(/* webpackChunkName: "group-topic" */ './views/topic/rendering')
-const topicPro = () => import(/* webpackChunkName: "group-topic" */ './views/topic/rendering')
+// const topic = () => import(/* webpackChunkName: "group-topic" */ './views/topic')
 
 Vue.use(Router);
 const routes = [{
@@ -32,22 +24,6 @@ const routes = [{
     meta: {
         keepAlive: true
     }
-}, {
-    path: '/topic',
-    component: topic,
-    meta: {
-        keepAlive: false
-    },
-    children: [{
-        path: '',
-        component: topicRen
-    }, {
-        path: 'components',
-        component: topicCom
-    }, {
-        path: 'props-v-state',
-        component: topicPro
-    }]
 }];
 
 export default new Router({

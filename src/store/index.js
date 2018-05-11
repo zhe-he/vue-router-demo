@@ -3,20 +3,14 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as mutations from './mutations'
 import * as getters from './getters'
+import state from './state'
 import createLogger from 'vuex/dist/logger'
 
 const debug = process.env.NODE_ENV !== 'production';
 
 Vue.use(Vuex);
 const store = new Vuex.Store({
-    state: {
-        loadStatus: 0,
-        toast: {
-            msg: "",
-            timer: null,
-            status: 0
-        }
-    },
+    state,
     getters,
     actions,
     mutations,

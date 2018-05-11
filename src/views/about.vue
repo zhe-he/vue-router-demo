@@ -7,6 +7,16 @@
     </div>
 </template>
 
+<script>
+    import CommonNav from '@/modules/nav'
+
+    export default {
+        components: {
+            CommonNav
+        }
+    }
+</script>
+
 <style lang="sass" scoped>
     p
         background: linear-gradient(to right,rgba(255,0,0,0.5) 0%,rgba(0,255,0,0.5) 100%)
