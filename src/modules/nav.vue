@@ -6,7 +6,7 @@
 </template>
 
 <style scoped lang="scss">
-    @import "../styles/base";
+    @import "~@/styles/base";
     li{
         cursor: pointer;
         &.router-link-active{

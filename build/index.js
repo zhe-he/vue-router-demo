@@ -54,7 +54,8 @@ module.exports = {
                 collapseWhitespace: true
             },
             inject: true,
-            hash: !isProduction
+            hash: !isProduction,
+            chunksSortMode: 'none'
         }),
         new webpack.optimize.SplitChunksPlugin({
             chunks: "all",
@@ -69,10 +70,9 @@ module.exports = {
                     priority: -20,
                     reuseExistingChunk: true,
                 },
-                main: {
+                index: {
                     test: /[\\/]node_modules[\\/]/,
-                    priority: -10,
-                    name: 'main'
+                    priority: -10
                 }
             }
         }),
@@ -80,6 +80,7 @@ module.exports = {
     ],
     module: {
         rules: [
+            { test: /\.pug$/, loader: 'pug-plain-loader' },
             { test: /\.js$/, include: [resolve('src')], loader:'babel-loader' },
             { test: /\.tsx?$/, include: [resolve('src')], loader: 'ts-loader', options: { appendTsSuffixTo: [/\.vue$/] } },
             { test: /\.css$/, use: cssLoader },
