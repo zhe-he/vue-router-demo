@@ -15,16 +15,6 @@ config.plugins = (webpackBase.plugins || []).concat(
     new webpack.HotModuleReplacementPlugin()
 );
 
-// css-hot-loader
-for (var i = 0; i < config.module.rules.length; i++) {
-    let item = config.module.rules[i];
-    if (/\.vue/.test(item.test) && item.enforce != "pre") {
-        config.module.rules[i].use[0].options.loaders.scss = ['css-hot-loader'].concat(item.use[0].options.loaders.scss);
-        config.module.rules[i].use[0].options.loaders.sass = ['css-hot-loader'].concat(item.use[0].options.loaders.sass);
-        config.module.rules[i].use[0].options.loaders.css = ['css-hot-loader'].concat(item.use[0].options.loaders.css);
-    }
-}
-
 // other file change
 var chokidar = require('chokidar');
 chokidar.watch(__dirname+ '/index.js').on('change', function(){

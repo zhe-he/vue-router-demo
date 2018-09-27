@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import Promise from 'promise-polyfill'
 import Vue from 'vue'
 import store from './store'

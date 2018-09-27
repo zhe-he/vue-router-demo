@@ -2,27 +2,6 @@ $yellow: #e09504;
 $lightyellow: #fdd8a6;
 $blue: #7560f9;
 $origin: #ff4f1a;
-
-@mixin bg($img,$x:100%,$y:100%){
-	background-repeat: no-repeat;
-	background-image: url('../../images/#{$img}');
-	background-size: $x $y;
-}
-@mixin bg2($img,$x:100%,$y:100%,$complete:false){
-	background-repeat: no-repeat;
-	@if $complete{
-		background-image: url('../../images/#{$img}');
-		background-image: -webkit-image-set(
-		url('../../images/#{$img}') 2x,
-		url('../../images/#{$img}') 3x);
-	} @else {
-		background-image: url('../../images/#{$img}@2x.png');
-		background-image: -webkit-image-set(
-		url('../../images/#{$img}@2x.png') 2x,
-		url('../../images/#{$img}@3x.png') 3x);
-	}
-	background-size: $x $y;
-}
 @mixin common-fixed($top:0){
 	position: fixed;
 	top: $top;

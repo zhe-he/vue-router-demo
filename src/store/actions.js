@@ -1,4 +1,4 @@
-export const setTestSync = ({commit}, {value, time}) => {
+export const setTestSync = ({ commit }, { value, time }) => {
     setTimeout(() => {
         commit('setTest', value);
     }, time);

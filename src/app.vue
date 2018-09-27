@@ -8,8 +8,8 @@
 </template>
 
 <style lang="scss">
-    @import "./styles/reset";
-    @import "./styles/index";
+    @import "~@/styles/reset.scss";
+    @import "~@/styles/index.scss";
 </style>
 <script type="text/javascript">
     export default {

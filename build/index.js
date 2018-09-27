@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require('path');
@@ -10,13 +11,11 @@ const DIST = 'dist';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const cssLoader = [
-    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+    isProduction ? MiniCssExtractPlugin.loader : 'vue-style-loader',
     'css-loader',
     'postcss-loader'
 ];
 const sassLoader = cssLoader.concat('sass-loader');
-const vueCssLoader = cssLoader.slice(0,-1).join('!');
-const vueSassLoader = vueCssLoader + '!sass-loader';
 
 const outputFilename = isProduction ? '[name].[hash:8].[ext]' : '[name].[ext]?[hash]';
 const outputJsname = isProduction ? '[name].[chunkhash:8].js' : '[name].js';
@@ -41,13 +40,14 @@ module.exports = {
             filename: isProduction ? 'static/css/[name].[hash:8].css' : 'static/css/[name].css',
             chunkFilename: isProduction ? 'static/css/[id].[hash:8].css' : 'static/css/[id].css'
         }),
+        new VueLoaderPlugin(),
         new CopyWebpackPlugin([
-            {from: 'images/static/**/*', to: 'static'}
+            { from: 'static/**/*' }
         ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
-            favicon: 'images/favicon.ico',
+            favicon: 'static/favicon.ico',
             minify: {
                 minimize: true,
                 removeComments: true,
@@ -81,30 +81,10 @@ module.exports = {
     module: {
         rules: [
             { test: /\.js$/, include: [resolve('src')], loader:'babel-loader' },
-            { test: /\.tsx?$/, include: [resolve('src')], loader: 'ts-loader' },
+            { test: /\.tsx?$/, include: [resolve('src')], loader: 'ts-loader', options: { appendTsSuffixTo: [/\.vue$/] } },
             { test: /\.css$/, use: cssLoader },
             { test: /\.(scss|sass)$/, use: sassLoader },
-            { test: /\.json$/, type: "javascript/auto" },
-            {
-                test: /\.vue$/,
-                use: [
-                    {
-                        loader: 'vue-loader',
-                        options: {
-                            cssModules: {
-                                localIdentName: '[path][name]---[local]---[hash:base64:5]',
-                                camelCase: true
-                            },
-                            loaders: {
-                                scss: vueSassLoader,
-                                sass: vueSassLoader + '?indentedSyntax',
-                                css: vueCssLoader,
-                                js: 'babel-loader'
-                            }
-                        }
-                    }
-                ]
-            },
+            { test: /\.vue$/, loader: 'vue-loader' },
             {
                 test: /\.(png|jpe?g|gif)$/,
                 loader:'url-loader',
@@ -115,9 +95,8 @@ module.exports = {
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: 'url-loader',
+                loader: 'file-loader',
                 options: {
-                    limit: 10000,
                     name: 'static/media/' + outputFilename
                 }
             },

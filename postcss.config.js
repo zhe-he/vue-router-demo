@@ -1,8 +1,7 @@
 module.exports = {
-    plugins: [require('postcss-cssnext')({
-        browsers: ['last 2 versions'],
-        features: {
-            rem: false
-          }
-    })]
+    plugins: [
+        require('postcss-preset-env')({ 
+            browsers: 'last 2 versions'
+        })
+    ]
 }
