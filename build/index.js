@@ -70,9 +70,10 @@ module.exports = {
                     priority: -20,
                     reuseExistingChunk: true,
                 },
-                index: {
+                main: {
                     test: /[\\/]node_modules[\\/]/,
-                    priority: -10
+                    priority: -10,
+                    name: 'main'
                 }
             }
         }),
